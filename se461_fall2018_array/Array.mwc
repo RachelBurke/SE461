@@ -1,0 +1,9 @@
+workspace (SingleProjectWorkspace) {
+    Array.mpc
+
+    ./Array
+}
+
+workspace (AllFilesWorkspace) {
+    
+}

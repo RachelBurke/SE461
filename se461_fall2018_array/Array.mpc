@@ -1,0 +1,16 @@
+project(Array) {
+    exename = array
+
+    Source_Files {
+        Array.cpp
+        driver.cpp
+    }
+
+    Header_Files {
+        Array.h
+    }
+
+    Inline_Files {
+        Array.inl
+    }
+}
