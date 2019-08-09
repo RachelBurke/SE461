@@ -1,0 +1,1 @@
+This is an example repository used to demonstrate the necessary skills to complete Assignment 1.
