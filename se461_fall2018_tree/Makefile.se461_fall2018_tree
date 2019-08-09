@@ -1,0 +1,115 @@
+#----------------------------------------------------------------------------
+#       Macros
+#----------------------------------------------------------------------------
+CC            = gcc
+CXX           = g++
+LD            = $(CXX) $(CCFLAGS) $(CPPFLAGS)
+AR            = ar
+PICFLAGS      = -fPIC
+CPPFLAGS      = $(PICFLAGS) $(GENFLAGS) -D_REENTRANT
+OBJEXT        = .o
+OUTPUT_OPTION = -o "$@"
+COMPILE.c     = $(CC) $(CFLAGS) $(CPPFLAGS) -c
+COMPILE.cc    = $(CXX) $(CCFLAGS) $(CPPFLAGS) -c
+LDFLAGS       = -L"."
+CCC           = $(CXX)
+MAKEFILE      = Makefile.se461_fall2018_tree
+DEPENDENCIES  = .depend.$(MAKEFILE)
+BTARGETDIR    = ./
+BIN           = $(BTARGETDIR)driver$(EXESUFFIX)$(EXEEXT)
+CAT           = cat
+MV            = mv -f
+RM            = rm -rf
+CP            = cp -p
+NUL           = /dev/null
+MKDIR         = mkdir -p
+TESTDIRSTART  = test -d
+TESTDIREND    = ||
+TOUCH         = touch
+EXEEXT        = 
+LIBPREFIX     = lib
+LIBSUFFIX     = 
+GENFLAGS      = -O
+LDLIBS        = -ldl $(subst lib,-l,$(sort $(basename $(notdir $(wildcard /usr/lib/librt.so /lib/librt.so))))) -lpthread
+OBJS          = Binary_Expr_Node$(OBJEXT) Calculator$(OBJEXT) Expr_Tree_Builder$(OBJEXT) Open_Parentheses_Node$(OBJEXT) driver$(OBJEXT) Add_Expr_Node$(OBJEXT) Calculator_Node_Factory$(OBJEXT) Divide_Expr_Node$(OBJEXT) Num_Expr_Node$(OBJEXT) Unary_Expr_Node$(OBJEXT) Close_Parentheses_Node$(OBJEXT) Eval_Expr_Tree_Visitor$(OBJEXT) Subtract_Expr_Node$(OBJEXT) Modulus_Expr_Node$(OBJEXT) Multiply_Expr_Node$(OBJEXT)
+SRC           = Binary_Expr_Node.cpp Calculator.cpp Expr_Tree_Builder.cpp Open_Parentheses_Node.cpp driver.cpp Add_Expr_Node.cpp Calculator_Node_Factory.cpp Divide_Expr_Node.cpp Num_Expr_Node.cpp Unary_Expr_Node.cpp Close_Parentheses_Node.cpp Eval_Expr_Tree_Visitor.cpp Subtract_Expr_Node.cpp Modulus_Expr_Node.cpp Multiply_Expr_Node.cpp
+LINK.cc       = $(LD) $(LDFLAGS)
+EXPORTFLAGS   = 
+DEPLIBS       = $(foreach lib, , $(foreach libpath, ., $(wildcard $(libpath)/lib$(lib).a)))
+
+#----------------------------------------------------------------------------
+#       Local targets
+#----------------------------------------------------------------------------
+
+all: $(BIN)
+
+$(BIN): $(OBJS) $(DEPLIBS)
+	@$(TESTDIRSTART) "$(BTARGETDIR)" $(TESTDIREND) $(MKDIR) "$(BTARGETDIR)"
+	$(LINK.cc) $(OBJS) $(LDLIBS) $(OUTPUT_OPTION)
+
+generated: $(GENERATED_DIRTY)
+	@-:
+
+Binary_Expr_Node$(OBJEXT): Binary_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Binary_Expr_Node.cpp
+
+Calculator$(OBJEXT): Calculator.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Calculator.cpp
+
+Expr_Tree_Builder$(OBJEXT): Expr_Tree_Builder.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Expr_Tree_Builder.cpp
+
+Open_Parentheses_Node$(OBJEXT): Open_Parentheses_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Open_Parentheses_Node.cpp
+
+driver$(OBJEXT): driver.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) driver.cpp
+
+Add_Expr_Node$(OBJEXT): Add_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Add_Expr_Node.cpp
+
+Calculator_Node_Factory$(OBJEXT): Calculator_Node_Factory.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Calculator_Node_Factory.cpp
+
+Divide_Expr_Node$(OBJEXT): Divide_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Divide_Expr_Node.cpp
+
+Num_Expr_Node$(OBJEXT): Num_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Num_Expr_Node.cpp
+
+Unary_Expr_Node$(OBJEXT): Unary_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Unary_Expr_Node.cpp
+
+Close_Parentheses_Node$(OBJEXT): Close_Parentheses_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Close_Parentheses_Node.cpp
+
+Eval_Expr_Tree_Visitor$(OBJEXT): Eval_Expr_Tree_Visitor.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Eval_Expr_Tree_Visitor.cpp
+
+Subtract_Expr_Node$(OBJEXT): Subtract_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Subtract_Expr_Node.cpp
+
+Modulus_Expr_Node$(OBJEXT): Modulus_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Modulus_Expr_Node.cpp
+
+Multiply_Expr_Node$(OBJEXT): Multiply_Expr_Node.cpp
+	$(COMPILE.cc) $(EXPORTFLAGS) $(OUTPUT_OPTION) Multiply_Expr_Node.cpp
+
+clean:
+	-$(RM) $(OBJS)
+
+realclean: clean
+	-$(RM) $(BIN)
+
+check-syntax:
+	$(COMPILE.cc) $(EXPORTFLAGS) -Wall -Wextra -pedantic -fsyntax-only $(CHK_SOURCES)
+
+#----------------------------------------------------------------------------
+#       Dependencies
+#----------------------------------------------------------------------------
+
+
+depend:
+	-$(MPC_ROOT)/depgen.pl  $(CFLAGS) $(CCFLAGS) $(CPPFLAGS) -f $(DEPENDENCIES) $(SRC) 2> $(NUL)
+
+-include $(DEPENDENCIES)
