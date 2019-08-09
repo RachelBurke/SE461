@@ -1,0 +1,19 @@
+project(Composition) {
+    exename = composition
+
+    Source_Files {
+        driver.cpp
+    }
+
+    Template_Files{
+        Base_Array.cpp
+        Array.cpp
+        Fixed_Array.cpp
+        Queue.cpp
+        Stack.cpp
+    }
+
+    specific (make) {
+        compile_flags += -std=c++11
+    }
+}
